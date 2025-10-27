@@ -1,0 +1,42 @@
+button,
+[role="button"] {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+
+*[hidden] {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  all: unset;
+}
+
+* {
+  box-sizing: border-box;
+  color: #323232;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+    sans-serif;
+}
+
+p {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  position: relative;
+}

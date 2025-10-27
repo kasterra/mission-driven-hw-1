@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>과제 메인 페이지</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"
+    />
+    <link rel="stylesheet" href="./css/layout.css" />
+    <link rel="stylesheet" href="./css/components.css" />
+    <link rel="stylesheet" href="./css/page/index.css" />
+    <link rel="stylesheet" href="./css/base.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="header-title">과제</h1>
+      <button type="submit" class="header-cta-btn btn-black">다음으로</button>
+    </header>
+    <main class="layout-responsible-grid" role="main">
+      <section class="layout-column" aria-labelledby="section-main-image">
+        <article class="component-wrapper">
+          <header class="component-title-area">
+            <h2 id="section-main-image" class="component-title">대표 이미지</h2>
+          </header>
+          <div class="main-image-input">
+            <div class="main-image-input__text-container">
+              <h3 class="main-image-input__title">
+                콘텐츠 대표 이미지를 <br />등록해 주세요!
+              </h3>
+              <p id="main-image-hint" class="main-image-input__subtitle">
+                1:1 비율의 정사각형 이미지를 추천합니다
+              </p>
+            </div>
+            <div class="main-image-input__control">
+              <input
+                type="file"
+                id="main-image"
+                name="mainImage"
+                accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                aria-describedby="main-image-hint"
+                hidden
+              />
+              <label
+                for="main-image"
+                class="btn-black main-image-input__button"
+              >
+                이미지 업로드
+              </label>
+            </div>
+          </div>
+        </article>
+        <article class="component-wrapper">
+          <header class="component-title-area">
+            <h2 class="component-title">추가 이미지 (선택)</h2>
+            <h3 id="sub-image-hint" class="component-subtitle">
+              최대 4장까지 등록할 수 있어요
+            </h3>
+          </header>
+          <div class="sub-image-input">
+            <input
+              type="file"
+              id="sub-images"
+              accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+              aria-label="추가 이미지 업로드"
+              aria-describedby="sub-image-hint"
+              multiple
+              hidden
+            />
+            <template class="sub-image-placeholder">
+              <div class="sub-image-input__item">
+                <img
+                  src="./assets/image-plus.svg"
+                  class="sub-image-input__placeholder"
+                />
+              </div>
+            </template>
+          </div>
+        </article>
+      </section>
+      <section class="layout-column" aria-labelledby="secondary-area-title">
+        <h2 id="secondary-area-title" class="hidden">보조 영역</h2>
+        <article class="component-wrapper">
+          <header class="component-title-area">
+            <h2 class="component-title">카테고리</h2>
+          </header>
+          <a href="#" class="category-display" tabindex="0">
+            <span class="category-display__placeholder">
+              주제를 선택해주세요
+            </span>
+            <img src="./assets/chevron-right.svg" alt="" aria-hidden="true" />
+          </a>
+        </article>
+        <article class="component-wrapper">
+          <header class="component-title-area">
+            <h2 id="content-title-label" class="component-title">
+              콘텐츠 제목
+            </h2>
+          </header>
+          <div class="responsive-textarea">
+            <label for="content-title" class="hidden">콘텐츠 제목</label>
+            <textarea
+              id="content-title"
+              class="responsive-textarea__textarea"
+              placeholder="제목을 입력해주세요"
+              maxlength="80"
+              aria-describedby="content-title-counter content-title-help"
+            ></textarea>
+            <div
+              id="content-title-counter"
+              class="responsive-textarea__char-counter"
+              aria-live="polite"
+            >
+              0 / 80자 (최소 8자)
+            </div>
+            <p id="content-title-help" class="responsive-textarea__tooltip">
+              툴팁 텍스트
+            </p>
+          </div>
+        </article>
+        <article class="component-wrapper">
+          <header class="component-title-area">
+            <h2 class="component-title">활동 방식 선택</h2>
+            <h3 class="component-subtitle">
+              만남을 어떤 방식으로 진행하시겠어요?
+            </h3>
+          </header>
+          <div
+            class="activity-style-picker"
+            role="radiogroup"
+            aria-label="활동 방식 선택"
+          >
+            <button
+              type="button"
+              class="activity-style-picker__option btn-pale"
+              role="radio"
+              aria-checked="false"
+              tabindex="0"
+              data-value="online"
+            >
+              온라인
+            </button>
+            <button
+              type="button"
+              class="activity-style-picker__option btn-pale"
+              role="radio"
+              aria-checked="false"
+              tabindex="-1"
+              data-value="offline"
+            >
+              직접 만나기
+            </button>
+          </div>
+        </article>
+        <article class="component-wrapper">
+          <header class="component-title-area">
+            <h2 class="component-title">상세 정보</h2>
+          </header>
+          <article class="event-schedule">
+            <ol class="event-schedule__list">
+              <li class="event-schedule__section">
+                <h3 class="event-schedule__session-title">회차 정보</h3>
+                <div class="event-schedule__sesion-info-row">
+                  <div class="event-schedule__sesson-info">
+                    <span class="event-schedule__session-info-title"
+                      >날짜 선택</span
+                    >
+                    <div class="event-schedule__session-info-content">
+                      <span
+                        class="event-schedule__calendar-text event-schedule__calendar-text--placeholder"
+                      >
+                        날짜를 선택해주세요
+                      </span>
+                    </div>
+                  </div>
+                  <div class="event-schedule__sesson-info">
+                    <span class="event-schedule__session-info-title"
+                      >시작 시간</span
+                    >
+                    <div class="event-schedule__time-picker">
+                      <div
+                        class="event-schedule__ampm"
+                        role="radiogroup"
+                        aria-label="시작 시간 오전/오후"
+                      >
+                        <button
+                          type="button"
+                          class="btn-pale event-schedule__ampm__btn"
+                          role="radio"
+                          aria-checked="true"
+                          tabindex="0"
+                          data-value="AM"
+                        >
+                          오전
+                        </button>
+                        <button
+                          type="button"
+                          class="btn-pale event-schedule__ampm__btn"
+                          hidden
+                          role="radio"
+                          aria-checked="false"
+                          tabindex="-1"
+                          data-value="PM"
+                        >
+                          오후
+                        </button>
+                      </div>
+                      <div class="event-schedule__hour">
+                        <input
+                          type="text"
+                          inputmode="numeric"
+                          maxlength="2"
+                          aria-label="시"
+                          class="event-schedule__input"
+                        />
+                      </div>
+                      <span class="event-schedule__divider">:</span>
+                      <div class="event-schedule__minute">
+                        <input
+                          type="text"
+                          inputmode="numeric"
+                          maxlength="2"
+                          aria-label="분"
+                          class="event-schedule__input"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="event-schedule__sesson-info">
+                    <span class="event-schedule__session-info-title"
+                      >종료 시간</span
+                    >
+                    <div class="event-schedule__time-picker">
+                      <div
+                        class="event-schedule__ampm"
+                        role="radiogroup"
+                        aria-label="종료 시간 오전/오후"
+                      >
+                        <button
+                          type="button"
+                          class="btn-pale event-schedule__ampm__btn"
+                          role="radio"
+                          aria-checked="true"
+                          tabindex="0"
+                          data-value="AM"
+                        >
+                          오전
+                        </button>
+                        <button
+                          type="button"
+                          class="btn-pale event-schedule__ampm__btn"
+                          hidden
+                          role="radio"
+                          aria-checked="false"
+                          tabindex="-1"
+                          data-value="PM"
+                        >
+                          오후
+                        </button>
+                      </div>
+                      <div class="event-schedule__hour">
+                        <input
+                          type="text"
+                          inputmode="numeric"
+                          maxlength="2"
+                          aria-label="시"
+                          class="event-schedule__input"
+                        />
+                      </div>
+                      <span class="event-schedule__divider">:</span>
+                      <div class="event-schedule__minute">
+                        <input
+                          type="text"
+                          inputmode="numeric"
+                          maxlength="2"
+                          aria-label="분"
+                          class="event-schedule__input"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <section class="event-schedule__section">
+                  <div class="event-schedule__title-area">
+                    <h3
+                      id="session-desc-label"
+                      class="event-schedule__session-title"
+                    >
+                      활동 내용
+                    </h3>
+                    <p
+                      id="session-desc-help"
+                      class="event-schedule__session-subtitle"
+                    >
+                      날짜별 활동 내용을 간단히 적어주세요
+                    </p>
+                  </div>
+                  <div class="responsive-textarea">
+                    <label for="session-desc" class="hidden">활동 내용</label>
+                    <textarea
+                      id="session-desc"
+                      class="responsive-textarea__textarea"
+                      placeholder="활동 내용을 간단히 입력해주세요"
+                      aria-describedby="session-desc-counter session-desc-help"
+                    ></textarea>
+                    <div
+                      id="session-desc-counter"
+                      class="responsive-textarea__char-counter"
+                      aria-live="polite"
+                    >
+                      0 / 800자 (최소 8자)
+                    </div>
+                    <p class="responsive-textarea__tooltip">툴팁 텍스트</p>
+                  </div>
+                </section>
+              </li>
+            </ol>
+          </article>
+        </article>
+        <button type="button" class="btn-black event-schedule__add-btn">
+          회차 추가하기
+        </button>
+      </section>
+    </main>
+    <footer class="footer">
+      <button type="button" class="btn-black footer-cta-btn" disabled>
+        다음으로
+      </button>
+    </footer>
+    <script type="module" src="./js/pages/index.js"></script>
+  </body>
+</html>
