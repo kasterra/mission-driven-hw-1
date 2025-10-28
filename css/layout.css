@@ -21,9 +21,6 @@
     grid-template-columns: 510px 510px;
     justify-content: center;
   }
-  .layout-responsible-grid > * {
-    padding: 0px 20px;
-  }
 }
 
 .layout-column {

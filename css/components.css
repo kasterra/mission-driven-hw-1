@@ -449,12 +449,6 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 28px 20px;
-  background-color: #f7f7f8;
-  border-radius: 8px;
-}
-
-.event-schedule__list {
   padding: 0;
   margin: 0;
 }
@@ -466,9 +460,23 @@
 }
 
 .event-schedule__section {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 28px 20px;
+  background-color: #f7f7f8;
+  border-radius: 8px;
+}
+
+.event-schedule__section-x-btn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+  border: none;
 }
 
 .event-schedule__title-area {
@@ -496,6 +504,7 @@
 }
 
 .event-schedule__sesson-info {
+  position: relative;
   display: grid;
   grid-template-columns: 70px 1fr;
   align-items: center;
@@ -629,4 +638,91 @@
     border-radius: 6px;
     font-size: 18px;
   }
+}
+
+.calendar {
+  position: absolute;
+  left: 115px;
+  bottom: -2px;
+  width: 330px;
+  padding: 16px;
+  transform: translateY(100%);
+  box-shadow: 0px 2px 8px -2px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
+  border-radius: 8px;
+  z-index: 999;
+}
+
+.calendar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.calendar-head__btns {
+  display: flex;
+  gap: 2px;
+}
+.calendar-head__btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+}
+
+.calendar-head__btn > svg {
+  width: 50%;
+  height: 50%;
+}
+
+.calendar-head__btn:disabled path {
+  color: #d7d7d7;
+}
+
+.calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(7, 1fr);
+}
+
+.calendar-cta-btn {
+  width: 298px;
+  height: 48px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #fff;
+  font-size: 18px;
+  border: none;
+}
+
+.calendar-day {
+  font-weight: 500;
+  color: #121212;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: none;
+}
+
+.calendar-day--disabled {
+  color: #e5e5e5;
+  cursor: not-allowed;
+}
+
+.calendar-day--another-month-clickable {
+  color: #8f8f8f;
+}
+
+.calendar-day--selected {
+  background-color: #03c124;
+  border-radius: 6px;
+  color: #fff;
 }
