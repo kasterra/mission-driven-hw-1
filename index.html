@@ -102,25 +102,25 @@
               콘텐츠 제목
             </h2>
           </header>
-          <div class="responsive-textarea">
+          <div id="content-title-wrapper" class="responsive-textarea">
             <label for="content-title" class="hidden">콘텐츠 제목</label>
-            <textarea
-              id="content-title"
-              class="responsive-textarea__textarea"
-              placeholder="제목을 입력해주세요"
-              maxlength="80"
-              aria-describedby="content-title-counter content-title-help"
-            ></textarea>
-            <div
-              id="content-title-counter"
-              class="responsive-textarea__char-counter"
-              aria-live="polite"
-            >
-              0 / 80자 (최소 8자)
+            <div class="responsive-textarea__box">
+              <textarea
+                id="content-title"
+                class="responsive-textarea__textarea"
+                placeholder="제목을 입력해주세요"
+                maxlength="80"
+                aria-describedby="content-title-counter content-title-help"
+              ></textarea>
+              <div
+                id="content-title-counter"
+                class="responsive-textarea__char-counter"
+                aria-live="polite"
+              >
+                0 / 80자 (최소 8자)
+              </div>
             </div>
-            <p id="content-title-help" class="responsive-textarea__tooltip">
-              툴팁 텍스트
-            </p>
+            <p id="content-title-help" class="responsive-textarea__tooltip"></p>
           </div>
         </article>
         <article class="component-wrapper">
@@ -302,20 +302,22 @@
                   </div>
                   <div class="responsive-textarea">
                     <label for="session-desc" class="hidden">활동 내용</label>
-                    <textarea
-                      id="session-desc"
-                      class="responsive-textarea__textarea"
-                      placeholder="활동 내용을 간단히 입력해주세요"
-                      aria-describedby="session-desc-counter session-desc-help"
-                    ></textarea>
-                    <div
-                      id="session-desc-counter"
-                      class="responsive-textarea__char-counter"
-                      aria-live="polite"
-                    >
-                      0 / 800자 (최소 8자)
+                    <div class="responsive-textarea__box">
+                      <textarea
+                        id="session-desc"
+                        class="responsive-textarea__textarea"
+                        placeholder="활동 내용을 간단히 입력해주세요"
+                        aria-describedby="session-desc-counter session-desc-help"
+                      ></textarea>
+                      <div
+                        id="session-desc-counter"
+                        class="responsive-textarea__char-counter"
+                        aria-live="polite"
+                      >
+                        0 / 800자 (최소 8자)
+                      </div>
                     </div>
-                    <p class="responsive-textarea__tooltip">툴팁 텍스트</p>
+                    <p class="responsive-textarea__tooltip"></p>
                   </div>
                 </section>
               </li>

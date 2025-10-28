@@ -351,20 +351,26 @@
 /* content title input */
 .responsive-textarea {
   position: relative;
-  border: 1px solid #e5e5e5;
-  border-radius: 8px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
   background-color: #fff;
 }
 
-.responsive-textarea--green {
-  border: 1px solid #03c124;
+.responsive-textarea__box {
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
 }
 
-.responsive-textarea--red {
-  border: 1px solid #e82929;
+.responsive-textarea--green .responsive-textarea__box {
+  border-color: #03c124;
+}
+
+.responsive-textarea--red .responsive-textarea__box {
+  border-color: #e82929;
 }
 
 .responsive-textarea__tooltip {
