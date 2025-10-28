@@ -26,30 +26,33 @@
             <h2 id="section-main-image" class="component-title">대표 이미지</h2>
           </header>
           <div class="main-image-input">
-            <div class="main-image-input__text-container">
-              <h3 class="main-image-input__title">
-                콘텐츠 대표 이미지를 <br />등록해 주세요!
-              </h3>
-              <p id="main-image-hint" class="main-image-input__subtitle">
-                1:1 비율의 정사각형 이미지를 추천합니다
-              </p>
+            <div class="main-image-input__placeholder">
+              <div class="main-image-input__text-container">
+                <h3 class="main-image-input__title">
+                  콘텐츠 대표 이미지를 <br />등록해 주세요!
+                </h3>
+                <p id="main-image-hint" class="main-image-input__subtitle">
+                  1:1 비율의 정사각형 이미지를 추천합니다
+                </p>
+              </div>
+              <div class="main-image-input__control">
+                <input
+                  type="file"
+                  id="main-image"
+                  name="mainImage"
+                  accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                  aria-describedby="main-image-hint"
+                  hidden
+                />
+                <label
+                  for="main-image"
+                  class="btn-black main-image-input__button"
+                >
+                  이미지 업로드
+                </label>
+              </div>
             </div>
-            <div class="main-image-input__control">
-              <input
-                type="file"
-                id="main-image"
-                name="mainImage"
-                accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-                aria-describedby="main-image-hint"
-                hidden
-              />
-              <label
-                for="main-image"
-                class="btn-black main-image-input__button"
-              >
-                이미지 업로드
-              </label>
-            </div>
+            <img class="main-image-input__preview" hidden aria-hidden="true" />
           </div>
         </article>
         <article class="component-wrapper">
