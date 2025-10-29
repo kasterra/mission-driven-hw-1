@@ -1,4 +1,5 @@
 import { initCalendar } from "./calendar.js";
+import { showModal } from "./modal.js";
 import { initResponsiveTextarea } from "./responsive-textarea.js";
 import { initTimeInput } from "./time-input.js";
 
@@ -79,11 +80,18 @@ function renumberAndToggleX(root) {
 }
 
 function delegatedRemoveHandler(root) {
-  return (e) => {
+  return async (e) => {
     const target = e.target;
     if (!(target instanceof Element)) return;
     const xBtn = target.closest(".event-schedule__section-x-btn");
     if (!xBtn) return;
+    const result = await showModal(
+      "작성된 내용을 삭제하시겠어요?",
+      "삭제한 내용은 복구할 수 없습니다.",
+      "취소",
+      "삭제하기"
+    );
+    if (result !== "confirm") return;
     const li = xBtn.closest(".event-schedule__section");
     if (!li) return;
     li.remove();
