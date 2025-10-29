@@ -6,6 +6,8 @@
 // - 시작 시각(시/분) 변경 시 종료 = 시작 + 60분
 // - 사용자가 종료를 시작보다 빠르게 입력하면 토스트 후 종료 = 시작 + 60분로 자동 수정
 
+import { showToast } from "./toast.js";
+
 // ======================= Module-scope helpers ===============================
 const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
 const pad2 = (n) => String(n).padStart(2, "0");
@@ -83,11 +85,6 @@ const writePicker = (root, ampm, h, m) => {
   const minEl = getMinInput(root);
   if (hourEl) hourEl.value = pad2(clamp(h, 1, 12));
   if (minEl) minEl.value = pad2(clamp(m, 0, 59));
-};
-
-const showToast = (msg) => {
-  //TODO: 실제 토스트로 구현해야함
-  alert(msg);
 };
 
 const syncEndToStartPlus1h = (startRoot, endRoot) => {

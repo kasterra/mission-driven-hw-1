@@ -726,3 +726,33 @@
   border-radius: 6px;
   color: #fff;
 }
+
+/* TODO: toast */
+
+.toast {
+  position: fixed;
+  bottom: 60px;
+  left: calc(50% - 260px);
+  background-color: #323232;
+  color: #fff;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 18px;
+  width: 520px;
+  height: 48px;
+}
+
+@media (max-width: 767px) {
+  .toast {
+    font-size: 16px;
+    width: calc(100vw - 32px);
+    left: 16px;
+    bottom: 80px;
+  }
+}
+
+/* TODO: modal */
