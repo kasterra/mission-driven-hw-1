@@ -6,6 +6,15 @@ export function initActivityTypeSelector(root) {
   let radios = Array.from(root.querySelectorAll(SEL));
   if (radios.length === 0) return;
 
+  // Load saved selection from storage
+  const saved = loadSelectionFromStorage();
+  if (saved) {
+    const savedBtn = radios.find((btn) => btn.dataset.value === saved);
+    if (savedBtn && isSelectable(savedBtn)) {
+      applySelection(root, radios, savedBtn, false);
+    }
+  }
+
   // 클릭(위임)
   root.addEventListener("click", (e) => {
     const btn = e.target instanceof Element ? e.target.closest(SEL) : null;
@@ -90,7 +99,10 @@ function applySelection(group, radios, target, fireEvent) {
     btn.tabIndex = selected ? 0 : -1;
     btn.classList.toggle("active", selected);
   });
-  if (fireEvent) dispatchChange(group, target);
+  if (fireEvent) {
+    saveSelectionToStorage(target?.dataset?.value ?? "");
+    dispatchChange(group, target);
+  }
 }
 
 function dispatchChange(group, button) {
@@ -100,6 +112,22 @@ function dispatchChange(group, button) {
     detail: { value, button },
   });
   group.dispatchEvent(ev);
+}
+
+function saveSelectionToStorage(value) {
+  try {
+    localStorage.setItem("activity-type", value ?? "");
+  } catch {
+    // ignore
+  }
+}
+
+function loadSelectionFromStorage() {
+  try {
+    return localStorage.getItem("activity-type");
+  } catch {
+    return null;
+  }
 }
 
 function findNextEnabled(radios, fromIndex, dir) {

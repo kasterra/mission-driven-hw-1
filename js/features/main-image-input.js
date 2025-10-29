@@ -1,3 +1,29 @@
+import { showToast } from "./toast.js";
+import { isValidImage } from "../util/image.js";
+
+const MAIN_IMAGE_STORAGE_KEY = "main-image";
+function saveMainImageToStorage(dataUrl) {
+  try {
+    localStorage.setItem(MAIN_IMAGE_STORAGE_KEY, dataUrl);
+  } catch {
+    // ignore quota / serialization errors
+  }
+}
+function loadMainImageFromStorage() {
+  try {
+    return localStorage.getItem(MAIN_IMAGE_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+function clearMainImageFromStorage() {
+  try {
+    localStorage.removeItem(MAIN_IMAGE_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
 /**
  * main-image-input 컴포넌트를 위한 기능 모듈 JS 입니다.
  * @param {HTMLElement} root
@@ -11,18 +37,46 @@ export function initMainImageInput(root) {
 
   img.addEventListener("click", () => input.click());
 
-  function handleInputChange() {
-    const picked = input.files?.[0];
-    if (!picked) return;
-    const url = URL.createObjectURL(picked);
-    img.src = url;
-    console.log(url);
-    img.onload = () => URL.revokeObjectURL(url);
+  // Hydrate from localStorage (Base64 data URL)
+  const saved = loadMainImageFromStorage();
+  if (saved) {
+    img.src = saved;
     img.hidden = false;
     img.ariaHidden = false;
     const placeholder = root.querySelector(".main-image-input__placeholder");
-    placeholder.hidden = true;
-    placeholder.ariaHidden = true;
+    if (placeholder) {
+      placeholder.hidden = true;
+      placeholder.ariaHidden = true;
+    }
+  }
+
+  function handleInputChange() {
+    const picked = input.files?.[0];
+    if (!picked) {
+      // cleared by user
+      clearMainImageFromStorage();
+      return;
+    }
+    if (!isValidImage(picked)) {
+      showToast("이미지가 올바르지 않거나 너무 큽니다");
+      // keep previous image if any; do not clear storage
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = typeof reader.result === "string" ? reader.result : "";
+      if (!dataUrl) return;
+      img.src = dataUrl;
+      img.hidden = false;
+      img.ariaHidden = false;
+      saveMainImageToStorage(dataUrl);
+      const placeholder = root.querySelector(".main-image-input__placeholder");
+      if (placeholder) {
+        placeholder.hidden = true;
+        placeholder.ariaHidden = true;
+      }
+    };
+    reader.readAsDataURL(picked);
   }
 
   input.addEventListener("change", handleInputChange);

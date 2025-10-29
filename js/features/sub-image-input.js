@@ -1,3 +1,33 @@
+import { isValidImage } from "../util/image.js";
+
+const SUB_IMAGES_STORAGE_KEY = "sub-images";
+function loadSubImages() {
+  try {
+    const raw = localStorage.getItem(SUB_IMAGES_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed)
+      ? parsed.filter((s) => typeof s === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+function saveSubImages(list) {
+  try {
+    localStorage.setItem(SUB_IMAGES_STORAGE_KEY, JSON.stringify(list));
+  } catch {
+    // ignore quota errors
+  }
+}
+function clearSubImages() {
+  try {
+    localStorage.removeItem(SUB_IMAGES_STORAGE_KEY);
+  } catch {
+    // ignore
+  }
+}
+
 /**
  * sub-image-input 컴포넌트를 위한 기능 모듈 JS 입니다. *
  * @param {HTMLElement} root
@@ -5,8 +35,8 @@
 export function initSubImageInput(root) {
   if (!(root instanceof HTMLElement)) return;
 
-  /** @type {File[]} */
-  let files = [];
+  /** @type {string[]} data URLs */
+  let images = loadSubImages();
   const MAX = 4;
 
   /** @type {HTMLInputElement|null} */
@@ -23,35 +53,52 @@ export function initSubImageInput(root) {
   // 초기 상태: 아무 이미지도 없으면 플레이스홀더 1개 렌더
   render();
 
-  input.addEventListener("change", () => {
+  input.addEventListener("change", async () => {
     const picked = Array.from(input.files || []);
     input.value = "";
     if (picked.length === 0) return;
-
-    // 유효한 파일만 남기고 최대 4장으로 제한 (이 구현은 "덮어쓰기" 정책)
-    files = picked.filter(isValidFile).slice(0, MAX);
+    // 유효한 파일만 남기고 최대 4장으로 제한 (덮어쓰기 정책)
+    const valid = picked.filter(isValidImage).slice(0, MAX);
+    if (valid.length === 0) {
+      // 유효 파일이 없으면 기존 상태 유지
+      render();
+      return;
+    }
+    // FileList -> Base64(Data URL) 배열로 변환
+    const toDataUrl = (file) =>
+      new Promise((resolve) => {
+        const fr = new FileReader();
+        fr.onload = () =>
+          resolve(typeof fr.result === "string" ? fr.result : "");
+        fr.readAsDataURL(file);
+      });
+    const dataUrls = (await Promise.all(valid.map(toDataUrl))).filter(Boolean);
+    // 상태 업데이트: 새로 고른 이미지로 덮어쓰기
+    images = dataUrls.slice(0, MAX);
+    if (images.length === 0) {
+      clearSubImages();
+    } else {
+      saveSubImages(images);
+    }
     render();
   });
 
-  /** 렌더 함수: 현재 files를 기반으로 아이템 및 플레이스홀더 구성 */
   function render() {
     // 기존 아이템 제거
     root
       .querySelectorAll(".sub-image-input__item")
       .forEach((el) => el.remove());
 
-    // 파일 미리보기 아이템 렌더
-    files.forEach((file) => {
+    // 데이터 URL 기반 이미지 아이템 렌더
+    images.forEach((dataUrl, idx) => {
       const node = /** @type {HTMLElement} */ (
         tpl.content.firstElementChild.cloneNode(true)
       );
       const img = /** @type {HTMLImageElement} */ (node.querySelector("img"));
       img.classList.remove("sub-image-input__placeholder");
       img.classList.add("sub-image-input__img");
-      const url = URL.createObjectURL(file);
-      img.src = url;
-      img.alt = file.name || "선택한 이미지";
-      img.onload = () => URL.revokeObjectURL(url);
+      img.src = dataUrl;
+      img.alt = `선택한 이미지 ${idx + 1}`;
 
       // 어떤 아이템이든 클릭하면 파일 입력 열기
       attachPickHandler(node);
@@ -59,7 +106,7 @@ export function initSubImageInput(root) {
     });
 
     // 파일이 0개면 플레이스홀더 1개, 1~3개면 플레이스홀더 1개 추가, 4개면 추가 없음
-    if (files.length < MAX) {
+    if (images.length < MAX) {
       const placeholder = /** @type {HTMLElement} */ (
         tpl.content.firstElementChild.cloneNode(true)
       );
@@ -80,17 +127,5 @@ export function initSubImageInput(root) {
         input.click();
       }
     });
-  }
-
-  /** 파일 기본 검증: 타입/용량 */
-  /** @param {File} file @returns {boolean} */
-  function isValidFile(file) {
-    const okType =
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      /\.(jpe?g|png)$/i.test(file.name);
-    if (!okType) return false;
-    const okSize = file.size <= 15 * 1024 * 1024; // 15MB
-    return okSize;
   }
 }
