@@ -6,7 +6,10 @@ import {
   mountEventScheduleWithLocalStorage,
   serializeEventSchedule,
 } from "../features/event-schedule.js";
+
 import { initCategoryDisplay } from "../features/category-display.js";
+
+const TITLE_STORAGE_KEY = "md:contentTitle";
 
 initMainImageInput(document.querySelector(".main-image-input"));
 initSubImageInput(document.querySelector(".sub-image-input"));
@@ -120,7 +123,38 @@ document.addEventListener("event-schedule:change", recalcAndToggleCtas);
 
 // 제목 텍스트에어리어는 input/change 둘 다 감지
 const contentTitleTa = document.getElementById("content-title");
+// ---- LocalStorage backup/restore for 콘텐츠 제목 (index.js only) ----
 if (contentTitleTa) {
+  // Restore (only if empty to avoid clobbering freshly restored state)
+  try {
+    if (!contentTitleTa.value) {
+      const savedTitle = localStorage.getItem(TITLE_STORAGE_KEY);
+      if (typeof savedTitle === "string") {
+        contentTitleTa.value = savedTitle;
+        // Trigger input so existing validators/UI update immediately
+        contentTitleTa.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    }
+  } catch {
+    // ignore storage errors (e.g., privacy mode)
+  }
+
+  // Persist on input/change; remove key when empty
+  const persistTitle = () => {
+    try {
+      const v = contentTitleTa.value ?? "";
+      if (v.trim().length === 0) {
+        localStorage.removeItem(TITLE_STORAGE_KEY);
+      } else {
+        localStorage.setItem(TITLE_STORAGE_KEY, v);
+      }
+    } catch {
+      // ignore storage errors
+    }
+  };
+  contentTitleTa.addEventListener("input", persistTitle);
+  contentTitleTa.addEventListener("change", persistTitle);
+
   contentTitleTa.addEventListener("input", recalcAndToggleCtas);
   contentTitleTa.addEventListener("change", recalcAndToggleCtas);
 }
