@@ -476,7 +476,7 @@ function emitChange(root) {
   root.dispatchEvent(
     new CustomEvent("event-schedule:change", {
       detail: { data },
-      bubbles: false,
+      bubbles: true,
     })
   );
 }

@@ -55,6 +55,12 @@ export function initMainImageInput(root) {
     if (!picked) {
       // cleared by user
       clearMainImageFromStorage();
+      root.dispatchEvent(
+        new CustomEvent("main-image-input:change", {
+          detail: { dataUrl: null },
+          bubbles: true,
+        })
+      );
       return;
     }
     if (!isValidImage(picked)) {
@@ -75,6 +81,12 @@ export function initMainImageInput(root) {
         placeholder.hidden = true;
         placeholder.ariaHidden = true;
       }
+      root.dispatchEvent(
+        new CustomEvent("main-image-input:change", {
+          detail: { dataUrl },
+          bubbles: true,
+        })
+      );
     };
     reader.readAsDataURL(picked);
   }
