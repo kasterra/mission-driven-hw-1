@@ -6,10 +6,12 @@ import {
   mountEventScheduleWithLocalStorage,
   serializeEventSchedule,
 } from "../features/event-schedule.js";
+import { initCategoryDisplay } from "../features/category-display.js";
 
 initMainImageInput(document.querySelector(".main-image-input"));
 initSubImageInput(document.querySelector(".sub-image-input"));
 initResponsiveTextarea(document.getElementById("content-title-wrapper"));
+initCategoryDisplay(document.querySelector(".category-display"));
 initActivityTypeSelector(document.querySelector(".activity-style-picker"));
 
 const eventScheduleRoot = document.querySelector(".event-schedule");
@@ -39,6 +41,19 @@ function validTitle() {
   const ta = document.getElementById("content-title");
   const v = (ta?.value || "").trim();
   return v.length >= 8 && v.length <= 80; // 최소 8자, 최대 80자
+}
+
+function validCategory() {
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get("selected");
+  if (!raw) return false;
+  // URLSearchParams가 디코딩을 수행하므로 split만 해주면 됨
+  return (
+    raw
+      .split(",")
+      .map((s) => String(s || "").trim())
+      .filter(Boolean).length > 0
+  );
 }
 
 function hasActivityType() {
@@ -85,11 +100,15 @@ function validEventSchedule() {
 
 function recalcAndToggleCtas() {
   const ok =
-    hasMainImage() && validTitle() && hasActivityType() && validEventSchedule();
+    hasMainImage() &&
+    validTitle() &&
+    hasActivityType() &&
+    validCategory() &&
+    validEventSchedule();
 
   headerCtaBtn.disabled = !ok;
   headerCtaBtn.setAttribute("aria-disabled", String(!ok));
-  footerCtaBtn.disabled = !ok; // 푸터도 함께 토글 (원치 않으면 이 블록을 제거)
+  footerCtaBtn.disabled = !ok;
   footerCtaBtn.setAttribute("aria-disabled", String(!ok));
 }
 
